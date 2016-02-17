@@ -26,6 +26,7 @@ might want to check these links:
   * [Snippets](#snippets)
   * [RTags](#rtags)
 * [Lisp](#lisp)
+* [Markdown](#markdown)
 * [Customization](#customization)
 * [Troubleshooting](#troubleshooting)
 
@@ -40,8 +41,9 @@ might want to check these links:
   [Fill Column Indicator](http://www.emacswiki.org/emacs/FillColumnIndicator)
   (80-character column marker);
   [Project Explorer](https://github.com/sabof/project-explorer) (directory
-  tree); [Avy](https://github.com/abo-abo/avy) (jumping to visible text in 2 or
-  3 key-strokes); etc.
+  tree); [Avy](https://github.com/abo-abo/avy) (jump to visible text in 2 or 3
+  key-strokes); [ace-window](https://github.com/abo-abo/ace-window) (quick jump
+  between windows).
 * Projects: [Projectile](http://batsov.com/projectile) (project-based file
   management tool).
 * Git: [Magit](http://magit.github.io) (git UI);
@@ -157,6 +159,7 @@ Keybinding              | Description
 ------------------------|----------------------------------------------------------
 <kbd>C-c ARROW</kbd>    | Move cursor between windows.
 <kbd>C-c S-ARROW</kbd>  | Move the windows themselves.
+<kbd>M-p NUMBER</kbd>   | Jump to the specified window number using [ace-window](https://github.com/abo-abo/ace-window). If you only have 2 windows, cycle between them.
 
 Auto-complete:
 
@@ -307,7 +310,7 @@ Keybinding          | Description
 
 #### Other Helm tools
 
-Helm is a pretty good when you need quickly scan search results. The below commands
+Helm is a pretty good when you need quickly scan search results. The commands below
 will start different search modes. By default, they will use symbol under the point.
 However if it is not there just start typing text: the Helm window shows all
 matching lines, and you can jump from one to another using the arrow keys.
@@ -660,6 +663,33 @@ Possible issues:
 ## Lisp
 
 Coming soon: Emacs Lisp, Common Lisp and Clojure.
+
+## Markdown
+
+<kbd>M-x impatient-markdown-mode</kbd> starts a minor mode that provides a live
+preview of a markdown buffer in your favorite web browser. The web page is
+updated as you type (this feature is implemented with the
+[impatient mode](https://github.com/skeeto/impatient-mode)). Before you can use
+it, you need to set the variable `markdown-command` to the command to execute
+to render a markdown file into HTML.  For example, to use the GitHub command,
+clone [markup](https://github.com/github/markup) and set `markdown-command` to
+the path of `bin/github-markup` in your `after-init.el`.  Other options include
+Pandoc or RedCarpet.
+
+Note that [markdown-mode](http://jblevins.org/projects/markdown-mode/) itself
+provides a few keys to render into HTML, and it does not need an external
+renderer to be installed:
+
+| Key                  | Behavior                                   |
+| -------------------- | ------------------------------------------ |
+| <kbd>C-c C-c v</kbd> | Render and open in web browser             |
+| <kbd>C-c C-c m</kbd> | Render and open in another buffer          |
+| <kbd>C-c C-c l</kbd> | Live preview in EWW (the internal browser) |
+
+Another interesting feature is <kbd>M-x orgtbl-mode</kbd>, a minor mode for
+editing tables: it works like org tables but it uses the GitHub-flavored
+format. Use the tab key to switch to the next cell and reformat the whole
+table.
 
 ## Customization
 

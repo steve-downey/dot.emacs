@@ -68,6 +68,14 @@ shift-return for just newline.  If nil, do the opposite."
   :group 'exordium
   :type  'boolean)
 
+(defcustom exordium-delete-trailing-whitespace t
+  "If t, deletes all trailing whitespaces on all lines before
+saving a buffer. This is the default because it is generally a
+good practice. Set this variable to to nil if you work on legacy
+projects that have a lot of trailing whitespaces"
+  :group 'exordium
+  :type  'boolean)
+
 (defcustom exordium-enable-electric-pair-mode t
   "Enables electric-pair-mode."
   :group 'exordium
@@ -175,9 +183,10 @@ use underline waves."
   :group 'exordium
   :type  'boolean)
 
-(defcustom exordium-theme-use-big-org-fonts t
-  "Whether Org mode uses big fonts for titles and top-level
-  items."
+(defcustom exordium-theme-use-big-font t
+  "Whether the theme uses big fonts for titles and top-level
+  items. This applies to modes like org or markdown. Set it to
+  nil if you do not want to have variable-sized font."
   :group 'exordium
   :type  'boolean)
 
@@ -263,6 +272,12 @@ Disables flyspell if set to nil."
 
 (defcustom exordium-git-gutter t
   "Whether a git status icon is displayed in the left-side fringe or not."
+  :group 'exordium
+  :type  'boolean)
+
+;;; See init-cpp.el
+(defcustom exordium-enable-c++11-keywords t
+  "Enables syntax highlighting for the new keywords introduced in C++11"
   :group 'exordium
   :type  'boolean)
 

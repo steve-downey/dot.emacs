@@ -180,7 +180,7 @@ Uses `current-date-time-format' for the formatting the date/time."
             (buffer-undo-list t))
         ;; Insert the line arg times
         (dotimes (i (if (> arg 0) arg 1))
-          (unless (pg/string-ends-with line "\n")
+          (unless (string-suffix-p "\n" line)
             (newline))
           (insert line)))
       ;; Create the undo information
@@ -414,10 +414,11 @@ afterwards."
                      exordium-local-dir))
     (when (file-directory-p dir)
       (dolist (el (directory-files dir t "\\.el$"))
-        (let ((elc (byte-compile-dest-file el)))
-          (when (file-exists-p elc)
-            (delete-file elc))
-          (byte-compile-file el))))))
+        (unless (string-suffix-p ".t.el" el)
+          (let ((elc (byte-compile-dest-file el)))
+            (when (file-exists-p elc)
+              (delete-file elc))
+            (byte-compile-file el)))))))
 
 (defun link-local-config (local-dir)
   (interactive "Dlocal directory to symlink files from")
