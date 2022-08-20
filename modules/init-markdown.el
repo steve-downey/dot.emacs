@@ -34,7 +34,8 @@
    ("\\.md\\'" . markdown-mode)
    ("\\.markdown\\'" . markdown-mode))
   :hook
-  (add-hook (markdown-mode . exordium-electric-mode-add-back-tick))
+  (markdown-mode . exordium-electric-mode-add-back-tick)
+  (markdown-mode . visual-line-mode)
   :config
   ;; Loud face for TODOs in markdown documents
   (when exordium-font-lock
