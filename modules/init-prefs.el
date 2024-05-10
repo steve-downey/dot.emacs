@@ -9,6 +9,22 @@
 ;;;
 ;;; You can also use M-x `customize' and browse group Local -> Init.
 
+(defun exordium--string-vector-p (candidate)
+  "Returns true if CANDIDATE is a vector data structure and
+every element of it is of type string, else nil."
+  (and
+   (vectorp candidate)
+   (seq-every-p #'stringp candidate)))
+
+(define-widget 'exordium-string-vector 'lazy
+  "A vector of zero or more elements, every element of which is a string.
+Appropriate for any language-specific `defcustom' that needs to
+serialize as a JSON array of strings."
+  :offset 4
+  :tag "Vector"
+  :type '(restricted-sexp
+          :match-alternatives (exordium--string-vector-p)))
+
 (defgroup exordium nil
   "Customize your Emacs configuration."
   :group 'local)
@@ -251,6 +267,12 @@ Possible values are `:auto-complete',`:company', and nil.
 Default is `:auto-complete'.  See also `exordium-rtags-auto-complete'."
   :group 'exordium
   :type  'symbol)
+
+(defcustom exordium-company-clang-executable ["clang-19" "clang-18" "clang-17" "clang-16" "clang-15" "clang-14" "clang-13" "clang"]
+  "List of executable names to search for to run clang.
+Default is to choose the first that is found via `executable-find'."
+  :group 'exordium
+  :type 'exordium-string-vector)
 
 
 ;;; Themes -- see themes directory
@@ -565,21 +587,6 @@ configuration load slower."
 
 
 ;;; LSP
-(defun exordium--string-vector-p (candidate)
-  "Returns true if CANDIDATE is a vector data structure and
-every element of it is of type string, else nil."
-  (and
-   (vectorp candidate)
-   (seq-every-p #'stringp candidate)))
-
-(define-widget 'exordium-string-vector 'lazy
-  "A vector of zero or more elements, every element of which is a string.
-Appropriate for any language-specific `defcustom' that needs to
-serialize as a JSON array of strings."
-  :offset 4
-  :tag "Vector"
-  :type '(restricted-sexp
-          :match-alternatives (exordium--string-vector-p)))
 
 (defcustom exordium-lsp-clangd-executable ["clangd-18" "clangd-17" "clangd-16" "clangd-15" "clangd-14" "clangd-13" "clangd"]
   "List of executable names to search for to run clangd.

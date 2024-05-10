@@ -57,6 +57,8 @@
   (add-to-list 'company-backends '(company-capf company-dabbrev))
   (add-to-list 'company-backends 'exordium-company-assignees)
   (setq company-idle-delay nil)
+  (setq-default company-clang-executable
+                (seq-find #'executable-find exordium-company-clang-executable))
 
   :bind
   (("C-." . #'company-complete)
