@@ -45,7 +45,7 @@
 
   (setq treemacs-space-between-root-nodes nil)
 
-  (setq lsp-log-io t)
+  ;; (setq lsp-log-io t)
 )
 
 (use-package lsp-ui
