@@ -389,6 +389,11 @@ Disables flyspell if set to nil."
   :group 'exordium
   :type  'boolean)
 
+(defcustom exordium-use-projectile t
+  "Whether Projectile is enabled"
+  :group 'exordium
+  :type  'boolean)
+
 ;;; See init-git.el
 ;;; exordium-git-gutter displays a git diff icon in the left fringe, while
 ;;; exordium-git-gutter-non-fringe displays the diff icon on the left side of the
@@ -506,6 +511,11 @@ This is considered only when `exordium-complete-mode' is `:auto-complete'."
 
 (defcustom exordium-helm-fuzzy-match t
   "Whether Helm should use fuzzy matching for searches."
+  :group 'exordium
+  :type  'boolean)
+
+(defcustom exordium-helm-nowhere nil
+  "Whether Helm should be used at a;;."
   :group 'exordium
   :type  'boolean)
 
@@ -645,7 +655,13 @@ Default is to choose the first that is found via `executable-find'."
 (defcustom exordium-treesit-modes-enable nil
   "Enable treesiter.
 For emacs 29 and above enable new -ts-modes and attach forwarding hook."
-  :group 'exordium
+  :group 'exordiumg
   :type 'boolean)
+
+(defcustom exordium-company-nowhere nil
+  "Whether CompAny should be used at all."
+  :group 'exordium
+  :type  'boolean)
+
 
 (provide 'init-prefs)

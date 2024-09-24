@@ -69,6 +69,7 @@
         lsp-lens-enable t)
   :commands lsp-ui-mode)
 
+(unless 'exordium-helm-nowhere
 (use-package helm-xref
   :ensure t
   :after helm
@@ -84,6 +85,7 @@
   (helm-lsp-workspace-symbol
    helm-lsp-global-workspace-symbol
    helm-lsp-code-actions))
+)
 
 (use-package lsp-treemacs
   :after lsp-mode

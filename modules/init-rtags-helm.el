@@ -11,12 +11,15 @@
 ;;; -------------- -------------------------------------------------------
 
 (use-package rtags)
-(use-package helm)
-(use-package helm-rtags)
+(unless 'exordium-helm-nowhere
+  (use-package helm)
+  (use-package helm-rtags)
+)
 (use-package flycheck)
 (use-package cc-mode :ensure nil)
 (require 'init-prefs)
 
+(unless 'exordium-helm-nowhere
 (defun exordium-helm-flycheck ()
   "Ensure `flycheck-mode' is enabled and run `helm-flycheck'."
   (interactive)
@@ -31,6 +34,7 @@
         ("C-c r r" . #'exordium-helm-flycheck)
    :map helm-command-map
    ("f" . #'exordium-helm-flycheck)))
+)
 
 
 (defcustom rtags-helm-show-variables nil
@@ -43,6 +47,7 @@
   :group 'rtags
   :type 'boolean)
 
+(unless 'exordium-helm-nowhere
 (when (or exordium-helm-everywhere exordium-rtags-helm-everywhere)
   (setq rtags-helm-show-variables t)
   (setq rtags-helm-show-enums t)
@@ -183,5 +188,5 @@ buffer (classes, functions, variables, enums and other)"
              (action . rtags-helm-jump-to-line))))))
 
 (define-key c-mode-base-map [(meta control g)] 'rtags-helm-select-taglist)
-
+)
 (provide 'init-rtags-helm)

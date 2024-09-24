@@ -1,5 +1,5 @@
 ;;;; company-mode
-
+(unless 'exordium-company-nowhere
 (use-package company
   :diminish "CA"
   :after (rtags forge)
@@ -69,5 +69,5 @@
   :after company
   :init
   (company-statistics-mode))
-
+)
 (provide 'init-company)

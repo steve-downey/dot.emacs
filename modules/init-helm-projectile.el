@@ -17,8 +17,6 @@
 
 (require 'init-prefs)
 
-(use-package helm-rg)
-
 (use-package projectile
   :diminish
   :bind
@@ -35,6 +33,10 @@
       (when top-level
         (setq projectile-globally-ignored-directories
               (cons top-level projectile-globally-ignored-directories))))))
+
+(unless 'exordium-helm-nowhere
+(use-package
+  helm-rg)
 
 (use-package helm-projectile
   :after (projectile)
@@ -91,6 +93,7 @@ project's file using completion and show it in another window."
                              helm-source-projectile-projects)
   (when exordium-helm-everywhere
     (helm-projectile-on)))
+)
 
 (use-package treemacs-projectile
   :bind
