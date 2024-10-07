@@ -69,23 +69,21 @@
         lsp-lens-enable t)
   :commands lsp-ui-mode)
 
-(unless 'exordium-helm-nowhere
 (use-package helm-xref
   :ensure t
   :after helm
-  :if exordium-helm-everywhere
+  :if (eq exordium-minibuffer-complete-mode :helm)
   :commands helm-xref
   :config
   (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
 
 (use-package helm-lsp
   :after (lsp-mode helm)
-  :if exordium-helm-everywhere
+  :if (eq exordium-minibuffer-complete-mode :helm)
   :commands
   (helm-lsp-workspace-symbol
    helm-lsp-global-workspace-symbol
    helm-lsp-code-actions))
-)
 
 (use-package lsp-treemacs
   :after lsp-mode

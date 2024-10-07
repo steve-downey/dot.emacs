@@ -246,8 +246,8 @@ i.e., with git pull."
 ;;; Autocomplete -- see init-autocomplete.el
 
 (defcustom exordium-complete-mode :auto-complete
-  "Slect the completion engine for exordium.
-Possible values are `:auto-complete',`:company', and nil.
+  "Select the completion engine for exordium.
+Possible values are `:auto-complete',`:company', ':corfu', and nil.
 Default is `:auto-complete'.  See also `exordium-rtags-auto-complete'."
   :group 'exordium
   :type  'symbol)
@@ -503,6 +503,16 @@ This is considered only when `exordium-complete-mode' is `:auto-complete'."
   :type  'sexp)
 
 
+;;; mini-buffer autocomplete
+(defcustom exordium-minibuffer-complete-mode nil
+  "Select the completion engine for exordium.
+Possible values are `:ido',`:helm', ':vertico', and nil.
+Default is `:helm'.  See also `exordium-helm-everywhere'."
+  :group 'exordium
+  :type  'symbol)
+
+
+
 ;;; See init-helm.el
 (defcustom exordium-helm-everywhere nil
   "Whether Helm should be used as a substitute for common key bindings."

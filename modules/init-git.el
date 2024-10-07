@@ -260,12 +260,12 @@ The function is meant to be used as an advice with conjunction with `exordium-ma
 ;;; Git Grep
 
 (define-key exordium-git-map (kbd "g")
-  (if exordium-helm-everywhere
-      (lambda()
-        (interactive)
-        (setq current-prefix-arg '(4))
-        (call-interactively 'helm-grep-do-git-grep))
-    (function vc-git-grep)))
+            (if (eq exordium-minibuffer-complete-mode :helm)
+                (lambda()
+                  (interactive)
+                  (setq current-prefix-arg '(4))
+                  (call-interactively 'helm-grep-do-git-grep))
+              (function vc-git-grep)))
 
 
 ;;; Make backtick an electric pair

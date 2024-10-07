@@ -1,3 +1,6 @@
+;;; init.el --- Init -*- no-byte-compile: t; lexical-binding: t; -*-
+
+;;; Commentary:
 ;;;;  ___      __   __   __
 ;;;; |__  \_/ /  \ |__) |  \ | |  |  |\/|
 ;;;; |___ / \ \__/ |  \ |__/ | \__/  |  |
@@ -7,7 +10,15 @@
 ;; Reduce the frequency of garbage collection by making it happen on
 ;; each 100MB of allocated data (the default is on every 0.76MB). This reduces
 ;; the startup time.
-(setq gc-cons-threshold 100000000)
+
+;;; Code:
+
+(defvar exordium-gc-cons-threshold (* 16 1024 1024))
+(setq gc-cons-threshold most-positive-fixnum)
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold exordium-gc-cons-threshold)))
 
 (let ((min-version "27.1"))
   (when (version< emacs-version min-version)
@@ -18,42 +29,50 @@
       "EXORDIUM DID NOT LOAD CORRECTLY.
 Check the warnings and messages buffers, or restart with --debug-init")
 
+;; List of warning types not to display immediately. Many packages don't have
+;; lexical-binding set.
+(setq warning-suppress-types '((lexical-binding)))
+
+;; Disable the obsolete practice of end-of-line spacing from the
+;; typewriter era.
+(setq sentence-end-double-space nil)
+
 (defconst exordium-before-init "before-init.el"
-  "name of the before init file")
+  "name of the before init file.")
 
 (defconst exordium-prefs "prefs.el"
-  "name of the prefs file")
+  "name of the prefs file.")
 
 (defconst exordium-after-init "after-init.el"
-  "name of the after init file")
+  "name of the after init file.")
 
 (defconst exordium-custom "emacs-custom.el"
-  "name of the customization file")
+  "name of the customization file.")
 
 ;; Use this file for HTTP proxy settings if needed for packages.  Also add
 ;; additional packages to exordium-extra-packages for packages to be
 ;; automatically pulled from the elpa archives
 
 (defconst exordium-before-init-file (locate-user-emacs-file exordium-before-init)
-  "location of the master before init file")
+  "location of the master before init file.")
 
 (defconst exordium-modules-dir (locate-user-emacs-file "modules")
-  "location of the modules directory")
+  "location of the modules directory.")
 (defconst exordium-themes-dir (locate-user-emacs-file "themes")
-  "location of the themes directory")
+  "location of the themes directory.")
 (defconst exordium-extensions-dir (locate-user-emacs-file "extensions")
-  "location of the extensions directory")
+  "location of the extensions directory.")
 (defconst exordium-local-dir (locate-user-emacs-file "local")
-  "location of the local directory")
+  "location of the local directory.")
 
 (defconst exordium-prefs-file (locate-user-emacs-file exordium-prefs)
-  "location of the master prefs file")
+  "location of the master prefs file.")
 
 (defconst exordium-after-init-file (locate-user-emacs-file exordium-after-init)
-  "location of the master after init file")
+  "location of the master after init file.")
 
 (defconst exordium-custom-file (locate-user-emacs-file exordium-custom)
-  "location of the customization file")
+  "location of the customization file.")
 
 ;; Save any custom set variable in exordium-custom-file rather than at the end of init.el:
 (setq custom-file exordium-custom-file)
@@ -74,25 +93,25 @@ Each element of the list is in the same form as in `package-pinned-packages'."
 ;; after master 'before', 'after', and 'prefs' files
 
 (defconst exordium-taps-root (locate-user-emacs-file "taps")
-  "location of the tapped directories")
+  "location of the tapped directories.")
 
 (defconst exordium-tapped-before-init-files ()
-  "all tapped before init files, including master")
+  "all tapped before init files, including master.")
 
 (defconst exordium-tapped-prefs-files ()
-  "all tapped prefs files, including master")
+  "all tapped prefs files, including master.")
 
 (defconst exordium-tapped-after-init-files ()
-  "all tapped after init files, including master")
+  "all tapped after init files, including master.")
 
 (defconst exordium-melpa-package-repo "https://melpa.org/packages/"
-  "URL for packages repository")
+  "URL for packages repository.")
 
 (defconst exordium-pinned-melpa-package-repo "https://melpa.org/packages/"
-  "URL for pinned default packages. Set to stable melpa.org if you want stable")
+  "URL for pinned default packages. Set to stable melpa.org if you want stable.")
 
 (defconst exordium-gnu-package-repo "https://elpa.gnu.org/packages/"
-  "URL for the GNU package repository")
+  "URL for the GNU package repository.")
 
 (when (file-accessible-directory-p exordium-taps-root)
   (dolist (tap (nreverse (directory-files exordium-taps-root t "^[^\.][^\.]?*+")))
@@ -225,6 +244,7 @@ Each element of the list is in the same form as in `package-pinned-packages'."
 
 ;;; remove a package from the builtin list so it can be upgraded
 (defun exordium-ignore-builtin (pkg)
+  "Delete PKG from builtin package list for upgrade and install."
   (assq-delete-all pkg package--builtins)
   (assq-delete-all pkg package--builtin-versions))
 
@@ -290,6 +310,16 @@ the .elc exists. Also discard .elc without corresponding .el"
   :if (eq exordium-complete-mode :auto-complete))
 (use-package init-company :ensure nil
   :if (eq exordium-complete-mode :company))
+(use-package init-corfu :ensure nil
+  :if (eq exordium-complete-mode :corfu))
+
+(if (not exordium-minibuffer-complete-mode)
+    (if exordium-helm-everywhere
+        (setq exordium-minibuffer-complete-mode :helm)
+      (setq exordium-minibuffer-complete-mode :ido)))
+
+(if (eq exordium-minibuffer-complete-mode :vertico)
+    (use-package init-vertico :ensure nil))
 
 (use-package init-helm-projectile :ensure nil
   :if exordium-helm-projectile)
@@ -394,4 +424,5 @@ the .elc exists. Also discard .elc without corresponding .el"
 
 " (if current-user (car current-user) exordium-current-user))))
 
-;;; End of file
+(provide 'init)
+;;; init.el ends here

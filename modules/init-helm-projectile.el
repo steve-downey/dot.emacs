@@ -34,7 +34,6 @@
         (setq projectile-globally-ignored-directories
               (cons top-level projectile-globally-ignored-directories))))))
 
-(unless 'exordium-helm-nowhere
 (use-package
   helm-rg)
 
@@ -91,9 +90,8 @@ project's file using completion and show it in another window."
   (helm-add-action-to-source "ripgrep (arg) in project `C-S-r'"
                              #'exordium-helm-projectile--switch-project-and-do-rg
                              helm-source-projectile-projects)
-  (when exordium-helm-everywhere
+  (when (eq exordium-minibuffer-complete-mode :helm)
     (helm-projectile-on)))
-)
 
 (use-package treemacs-projectile
   :bind

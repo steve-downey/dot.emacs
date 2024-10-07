@@ -16,7 +16,6 @@
 ;;; C-S-s             Helm Swoop
 
 (require 'init-prefs)
-(unless 'exordium-helm-nowhere
 
 (use-package helm
   :diminish
@@ -36,7 +35,7 @@
 
 (use-package helm
   :diminish
-  :when exordium-helm-everywhere
+  :when (eq exordium-minibuffer-complete-mode :helm)
   :custom
   (history-delete-duplicates t)
   (helm-M-x-always-save-history t)
@@ -64,20 +63,17 @@
 
 (use-package helm-ag
   :unless exordium-helm-projectile
-  :init (warning "loading help-ag")
   :bind
   (("C-S-a" . #'helm-ag-project-root)))
 
 (use-package helm-rg
   :unless exordium-helm-projectile
-  :init (warning "loading help-rg")
   :bind
   (("C-S-r" . #'helm-rg)))
 
 (use-package helm-swoop
   :custom
   (helm-swoop-split-direction 'split-window-horizontally)
-  :init (warning "loading help-swoop")
   :bind
   (("C-S-s" . #'helm-swoop)
    ;; Use similar bindings to `helm-ag-edit'
@@ -106,5 +102,4 @@
 ;; (advice-add 'helm-swoop :around #'fix-helm-swoop-colors)
 
 
-)
 (provide 'init-helm)
