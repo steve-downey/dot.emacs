@@ -104,8 +104,7 @@ Each element of the list is in the same form as in `package-pinned-packages'."
 (defconst exordium-tapped-after-init-files ()
   "all tapped after init files, including master.")
 
-(defconst exordium-melpa-package-repo "https://melpa.org/packages/"
-  "URL for packages repository.")
+(defconst exordium-melpa-package-repo "https://melpa.org/packages/"  "URL for packages repository.")
 
 (defconst exordium-pinned-melpa-package-repo "https://melpa.org/packages/"
   "URL for pinned default packages. Set to stable melpa.org if you want stable.")

@@ -22,6 +22,19 @@
   :init
   (setq-default lsp-clients-clangd-executable
                 (seq-find #'executable-find exordium-lsp-clangd-executable))
+
+  (when (eq exordium-complete-mode :corfu)
+    (defun my/orderless-dispatch-flex-first (_pattern index _total)
+      (and (eq index 0) 'orderless-flex))
+
+    (defun my/lsp-mode-setup-completion ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(orderless))
+      (add-hook 'orderless-style-dispatchers #'my/orderless-dispatch-flex-first nil 'local)
+      (setq-local completion-at-point-functions (list (cape-capf-buster #'lsp-completion-at-point))))
+
+    (add-hook 'lsp-completion-mode-hook #'my/lsp-mode-setup-completion))
+
   :commands (lsp lsp-deferred)
 
   :config
@@ -30,10 +43,18 @@
   (setq lsp-clients-clangd-args exordium-lsp-clangd-args)
   (setq lsp-diagnostic-package :flycheck)
   (setq lsp-flycheck-live-reporting t)
-  ;; company mode configuration for lsp-mode
-  (setq lsp-completion-provider :capf)
-  (setq company-minimum-prefix-length 1
-        company-idle-delay 0.0)
+
+  (pcase exordium-complete-mode
+    (:auto-complete
+     (use-package ac-rtags)
+     (use-package auto-complete-c-headers))
+    (:company
+     (setq lsp-completion-provider :capf)
+     (setq company-minimum-prefix-length 1
+           company-idle-delay 0.0))
+    (:corfu
+     (setq lsp-completion-provider :none)))
+
 
   ;; process buffer for the LSP server needs to be larger
   (setq read-process-output-max (* 1024 1024)) ;; 1mb
