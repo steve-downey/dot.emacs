@@ -240,6 +240,10 @@ Each element of the list is in the same form as in `package-pinned-packages'."
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 (setq use-package-compute-statistics t)
+
+;; Install current gnu keys as soon as we have use-package
+(use-package gnu-elpa-keyring-update)
+
 
 ;;; remove a package from the builtin list so it can be upgraded
 (defun exordium-ignore-builtin (pkg)
